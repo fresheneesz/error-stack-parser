@@ -43,7 +43,57 @@ describe('ErrorStackParser', function () {
             expect(stackFrames[1]).toMatchStackFrame(['bar', undefined, 'http://path/to/file.js', 1, 1]);
         });
 
+        it('should parse Firefox 35 Error.stack', function () {
+            var stackFrames = unit.parse(CapturedExceptions.FIREFOX_35);
+            expect(stackFrames).toBeTruthy();
+            expect(stackFrames.length).toBe(3);
+            expect(stackFrames[0]).toMatchStackFrame(['(?)()', undefined, "http://localhost:8100/test.web.bundle.js", 75, undefined]);
+            expect(stackFrames[1]).toMatchStackFrame(['module.exports/req.onreadystatechange', undefined, "http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js", 5943, 1]);
+            expect(stackFrames[2]).toMatchStackFrame(['module.exports<.getSourceMapObject', undefined, "http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js", 4970, 10]);
+        });
+
+        it('should parse another Firefox 35 Error.stack', function () {
+            var stackFrames = unit.parse(CapturedExceptions.FIREFOX_35_B);
+            expect(stackFrames).toBeTruthy();
+            expect(stackFrames.length).toBe(27);
+
+            expect(stackFrames[0]).toMatchStackFrame(['StackTrace$$get', undefined, "http://localhost:8100/generatedBuild/stackinfo.umd.js", 3788, 23]);
+            expect(stackFrames[1]).toMatchStackFrame(['[21]</module.exports', undefined, "http://localhost:8100/generatedBuild/stackinfo.umd.js", 3923, 27]);
+            expect(stackFrames[2]).toMatchStackFrame(['H/<', undefined, "http://localhost:8100/", 47, 13]);
+            expect(stackFrames[3]).toMatchStackFrame(['gen/<', undefined, "http://localhost:8100/test/moar.js", 12, 9]);
+            expect(stackFrames[4]).toMatchStackFrame(['x', undefined, "http://localhost:8100/test/moar.js", 7, 5]);
+
+            expect(stackFrames[5]).toMatchStackFrame(['moar', undefined, "http://localhost:8100/test/moar.js", 2, 5]);
+            expect(stackFrames[6]).toMatchStackFrame(['H', undefined, "http://localhost:8100/", 46, 9]);
+            expect(stackFrames[7]).toMatchStackFrame(['G/<', undefined, "http://localhost:8100/", 41, 13]);
+            expect(stackFrames[8]).toMatchStackFrame(['G', undefined, "http://localhost:8100/", 40, 10]);
+            expect(stackFrames[9]).toMatchStackFrame(['F<[6]/<', undefined, "http://localhost:8100/", 34, 21]);
+
+
+            expect(stackFrames[10]).toMatchStackFrame(['E.fn1', undefined, "http://localhost:8100/", 27, 13]);
+            expect(stackFrames[11]).toMatchStackFrame(['D', undefined, "http://localhost:8100/", 22, 9]);
+            expect(stackFrames[12]).toMatchStackFrame(['C', undefined, "http://localhost:8100/", 18, 9]);
+            expect(stackFrames[13]).toMatchStackFrame(['B', undefined, "http://localhost:8100/", 14, 9]);
+            expect(stackFrames[14]).toMatchStackFrame(['A', undefined, "http://localhost:8100/", 10, 9]);
+
+            expect(stackFrames[15]).toMatchStackFrame(['unittest</<', undefined, "http://localhost:8100/", 156, 13]);
+            expect(stackFrames[16]).toMatchStackFrame(['testGroup/runTest', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3746, 17]);
+            expect(stackFrames[17]).toMatchStackFrame(['[18]</module.exports<.runTestGroup', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3465, 9]);
+            expect(stackFrames[18]).toMatchStackFrame(['testGroup', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3752, 9]);
+            expect(stackFrames[19]).toMatchStackFrame(['[19]</module.exports/UnitTester.prototype.test', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3881, 17]);
+
+            expect(stackFrames[20]).toMatchStackFrame(['unittest<', undefined, "http://localhost:8100/", 153, 9]);
+            expect(stackFrames[21]).toMatchStackFrame(['testGroup/runTest', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3746, 17]);
+            expect(stackFrames[22]).toMatchStackFrame(['[18]</module.exports<.runTestGroup', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3465, 9]);
+            expect(stackFrames[23]).toMatchStackFrame(['testGroup', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3752, 9]);
+            expect(stackFrames[24]).toMatchStackFrame(['[19]</module.exports/UnitTester.prototype.test', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3881, 17]);
+
+            expect(stackFrames[25]).toMatchStackFrame(['runTest', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3649, 13]);
+            expect(stackFrames[26]).toMatchStackFrame(['[19]</module.exports/UnitTest</this.init/<', undefined, "http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js", 3593, 17]);
+        });
+
         it('should parse V8 Error.stack', function () {
+            debugger;
             var stackFrames = unit.parse(CapturedExceptions.CHROME_15);
             expect(stackFrames).toBeTruthy();
             expect(stackFrames.length).toBe(4);
@@ -58,6 +108,23 @@ describe('ErrorStackParser', function () {
             expect(stackFrames).toBeTruthy();
             expect(stackFrames.length).toBe(2);
             expect(stackFrames[0]).toMatchStackFrame(['dumpExceptionError', undefined, 'http://localhost:8080/file.js', 41, 27]);
+        });
+
+        it('should parse V8 Error.stack entries of other various types', function () {
+            debugger;
+            var stackFrames = unit.parse(CapturedExceptions.CHROME_40B);
+            expect(stackFrames).toBeTruthy();
+            expect(stackFrames.length).toBe(10);
+            expect(stackFrames[0]).toMatchStackFrame(['Object.StackTrace$$get', undefined, 'http://localhost:8100/generatedBuild/stackinfo.umd.js', 3788, 23]);
+            expect(stackFrames[1]).toMatchStackFrame(['21.module.exports', undefined, "http://localhost:8100/generatedBuild/stackinfo.umd.js", 3923, 38]);
+            expect(stackFrames[2]).toMatchStackFrame([undefined, undefined, "http://localhost:8100/", 47, 13]);
+            expect(stackFrames[3]).toMatchStackFrame([undefined, undefined, "http://localhost:8100/test/moar.js", 12, 9]);
+            expect(stackFrames[4]).toMatchStackFrame(['x', undefined, 'http://localhost:8100/test/moar.js', 7, 5]);
+            expect(stackFrames[5]).toMatchStackFrame(['moar', undefined, 'http://localhost:8100/test/moar.js', 2, 5]);
+            expect(stackFrames[6]).toMatchStackFrame(['H', undefined, 'http://localhost:8100/', 46, 9]);
+            expect(stackFrames[7]).toMatchStackFrame([undefined, undefined, 'http://localhost:8100/', 41, 13]);
+            expect(stackFrames[8]).toMatchStackFrame(['Array.forEach', undefined, '(native)', undefined, undefined]);
+            expect(stackFrames[9]).toMatchStackFrame(['G', undefined, 'http://localhost:8100/', 40, 14]);
         });
 
         it('should parse IE 10 Error stacks', function () {

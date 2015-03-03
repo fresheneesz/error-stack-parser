@@ -173,6 +173,68 @@ CapturedExceptions.CHROME_36 = {
     "    at HTMLButtonElement.onclick (http://localhost:8080/file.js:107:146)"
 };
 
+
+// note, CHROME_40B comes from the same code as FIREFOX_35_B. The code is:
+/*
+function A(asdf) {
+    B(asdf)
+}
+function B(asdf) {
+    C.call(this, asdf)
+}
+function C(asdf) {
+    new D(asdf)
+}
+function D(asdf) {
+    E.fn1(asdf)
+}
+var E = {
+    fn1: function(asdf) {
+        F[0][6]()(asdf)
+    }
+}
+var F = [{
+    6: function() {
+        return function(asdf) {
+            G(asdf)
+        }
+    }
+}]
+var G = function(asdf) {
+    ;[1].forEach(function() {
+        H(asdf)
+    })
+}
+var H = function(arg) {
+    moar(function() {
+        try {
+            throw new Error('who cares')
+        } catch(e) {
+            // e from here
+        }
+    })
+}
+
+A(23)
+
+ */
+CapturedExceptions.CHROME_40B = { // I'm assuming here that the numbers are the version (this is version 40)
+    message: "who cares",
+    name: "Error",
+    stack: "Error\n"+
+    "    at Object.StackTrace$$get [as get] (http://localhost:8100/generatedBuild/stackinfo.umd.js:3788:23)\n"+
+    "    at 21.module.exports (http://localhost:8100/generatedBuild/stackinfo.umd.js:3923:38)\n"+
+    "    at http://localhost:8100/:47:13\n"+
+    "    at http://localhost:8100/test/moar.js:12:9\n"+
+    "    at x (http://localhost:8100/test/moar.js:7:5)\n"+
+    "    at moar (http://localhost:8100/test/moar.js:2:5)\n"+
+    "    at H (http://localhost:8100/:46:9)\n"+
+    "    at http://localhost:8100/:41:13\n"+
+    "    at Array.forEach (native)\n"+
+    "    at G (http://localhost:8100/:40:14)"
+}
+
+
 CapturedExceptions.FIREFOX_3 = {
     fileName: "http://127.0.0.1:8000/js/stacktrace.js",
     lineNumber: 44,
@@ -220,6 +282,60 @@ CapturedExceptions.FIREFOX_31 = {
     fileName: "http://path/to/file.js",
     lineNumber: 41,
     columnNumber: 12
+};
+
+CapturedExceptions.FIREFOX_35 = {             // I'm assuming here that the numbers are the version (this is version 35)
+    message: "whatever",
+    name: "Error",
+    stack: "ReferenceError: whatever\n" +
+    "   (?)()@http://localhost:8100/test.web.bundle.js:75\n" +
+    "   module.exports/req.onreadystatechange@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:5943:1\n" +
+    "   module.exports<.getSourceMapObject@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:4970:10",
+    fileName: "http://path/to/file.js",
+    lineNumber: 75
+};
+
+// note, this comes from the same code as CHROME_40B
+CapturedExceptions.FIREFOX_35_B = {           // I'm assuming here that the numbers are the version (this is version 35)
+    message: "whatever",
+    name: "Error",
+    stack: "StackTrace$$get@http://localhost:8100/generatedBuild/stackinfo.umd.js:3788:23\n" +
+        "[21]</module.exports@http://localhost:8100/generatedBuild/stackinfo.umd.js:3923:27\n" +
+        "H/<@http://localhost:8100/:47:13\n" +
+        "gen/<@http://localhost:8100/test/moar.js:12:9\n" +
+        "x@http://localhost:8100/test/moar.js:7:5\n" +
+
+        "moar@http://localhost:8100/test/moar.js:2:5\n" +
+        "H@http://localhost:8100/:46:9\n" +
+        "G/<@http://localhost:8100/:41:13\n" +
+        "G@http://localhost:8100/:40:10\n" +
+        "F<[6]/<@http://localhost:8100/:34:21\n" +
+
+
+        "E.fn1@http://localhost:8100/:27:13\n" +
+        "D@http://localhost:8100/:22:9\n" +
+        "C@http://localhost:8100/:18:9\n" +
+        "B@http://localhost:8100/:14:9\n" +
+        "A@http://localhost:8100/:10:9\n" +
+
+        "unittest</<@http://localhost:8100/:156:13\n" +
+        "testGroup/runTest@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3746:17\n" +
+        "[18]</module.exports<.runTestGroup@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3465:9\n" +
+        "testGroup@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3752:9\n" +
+        "[19]</module.exports/UnitTester.prototype.test@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3881:17\n" +
+
+
+        "unittest<@http://localhost:8100/:153:9\n" +
+        "testGroup/runTest@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3746:17\n" +
+        "[18]</module.exports<.runTestGroup@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3465:9\n" +
+        "testGroup@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3752:9\n" +
+        "[19]</module.exports/UnitTester.prototype.test@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3881:17\n" +
+
+        "runTest@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3649:13\n" +
+        "[19]</module.exports/UnitTest</this.init/<@http://localhost:8100/node_modules/deadunit/browserPackage/deadunit.browser.gen.umd.js:3593:17\n",
+    fileName: "http://localhost:8100/generatedBuild/stackinfo.umd.js",
+    lineNumber: 3788,
+    columnNumber: 22
 };
 
 CapturedExceptions.SAFARI_6 = {
