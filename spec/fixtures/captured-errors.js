@@ -288,9 +288,9 @@ CapturedExceptions.FIREFOX_35 = {             // I'm assuming here that the numb
     message: "whatever",
     name: "Error",
     stack: "ReferenceError: whatever\n" +
-    "   (?)()@http://localhost:8100/test.web.bundle.js:75\n" +
-    "   module.exports/req.onreadystatechange@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:5943:1\n" +
-    "   module.exports<.getSourceMapObject@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:4970:10",
+    "(?)()@http://localhost:8100/test.web.bundle.js:75\n" +
+    "module.exports/req.onreadystatechange@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:5943:1\n" +
+    "module.exports<.getSourceMapObject@http://localhost:8001/git/frontend/test/generated/allTestsFE.bundle.js:4970:10",
     fileName: "http://path/to/file.js",
     lineNumber: 75
 };

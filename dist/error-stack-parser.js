@@ -52,13 +52,7 @@
         parseV8OrIE: function ErrorStackParser$$parseV8OrIE(error) {
             return error.stack.split('\n').slice(1).map(function (line) {
                 var tokens = line.replace(/^\s+/, '').split(/\s+/).slice(1);
-                var locationToken = tokens.pop();
-                if(locationToken === '(native)') {
-                    var locationParts = this.extractLocation(tokens.pop().replace(/[\(\)\s]/g, ''));
-                } else {
-                    var locationParts = this.extractLocation(tokens.pop().replace(/[\(\)\s]/g, ''));
-                }
-
+                var locationParts = this.extractLocation(tokens.pop().replace(/[\(\)\s]/g, ''));
                 var functionName = (!tokens[0] || tokens[0] === 'Anonymous') ? undefined : tokens[0];
                 return new StackFrame(functionName, undefined, locationParts[0], locationParts[1], locationParts[2]);
             }, this);

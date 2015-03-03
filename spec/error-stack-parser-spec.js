@@ -129,7 +129,7 @@ describe('ErrorStackParser', function () {
             expect(stackFrames[5]).toMatchStackFrame(['moar', undefined, 'http://localhost:8100/test/moar.js', 2, 5]);
             expect(stackFrames[6]).toMatchStackFrame(['H', undefined, 'http://localhost:8100/', 46, 9]);
             expect(stackFrames[7]).toMatchStackFrame([undefined, undefined, 'http://localhost:8100/', 41, 13]);
-            expect(stackFrames[8]).toMatchStackFrame(['Array.forEach', undefined, '(native)', undefined, undefined]);
+            expect(stackFrames[8]).toMatchStackFrame(['Array.forEach', undefined, undefined, undefined, undefined]);
             expect(stackFrames[9]).toMatchStackFrame(['G', undefined, 'http://localhost:8100/', 40, 14]);
         });
 
